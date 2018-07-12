@@ -1,3 +1,4 @@
+from requests.exceptions import ConnectionError
 import re
 import sys
 import requests
@@ -21,16 +22,21 @@ def extractData(url):
     """
     if(len(url)):
         #Getting JSON responseData From URL Using Requests Module
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
     
-        if response.status_code == 404:
-            raise Exception('The server can not find the requested page.')
+            if response.status_code == 404:
+                raise Exception('The server can not find the requested page.')
 
-        if response.status_code == 400:
-            raise Exception('The server did not understand the request.')
+            if response.status_code == 400:
+                raise Exception('The server did not understand the request.')
 
-        if response.status_code == 500:
-            raise Exception('The request was not completed. The server met an unexpected condition.')
+            if response.status_code == 500:
+                raise Exception('The request was not completed. The server met an unexpected condition.')
+
+        except ConnectionError as e:
+            print('Check your internet connection')
+            sys.exit(1)
 
         else:
             responseData = json.loads(response.text)
