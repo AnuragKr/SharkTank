@@ -125,7 +125,22 @@ def getListOfInvestorAndInvestedAmount():
     
 #Main Function
 if __name__ == '__main__':
-  extractData('https://gist.githubusercontent.com/murtuzakz/4bd887712703ff14c9b0f7c18229b332/raw/d0dd1c59016e2488dcbe0c8e710a1c5df9c3672e/season7.json')
-  tupleInvNameAndCompName = getListOfInvestorAndCompanyNames()
-  tupleCompNameAndValue = getListOfComapnyNameAndCompanyValue()
-  tupleInvNameAndAmountInvested = getListOfInvestorAndInvestedAmount()
+    extractData('https://gist.githubusercontent.com/murtuzakz/4bd887712703ff14c9b0f7c18229b332/raw/d0dd1c59016e2488dcbe0c8e710a1c5df9c3672e/season7.json')
+    tupleInvNameAndCompName = getListOfInvestorAndCompanyNames()
+    tupleCompNameAndValue = getListOfComapnyNameAndCompanyValue()
+    tupleInvNameAndAmountInvested = getListOfInvestorAndInvestedAmount()
+    #Displaying of Results
+    print("---------------------Investors Name And List Of Companies He/She Invested---------------------")
+    for InvNameAndCompName in tupleInvNameAndCompName:
+        print(InvNameAndCompName[0] + ':' + str(InvNameAndCompName[1]))
+        print(' ')
+
+    print("--------------------------Comapany Name And It's Value------------------------------")
+    for CompNameAndValue in tupleCompNameAndValue:
+        print(CompNameAndValue[0] + ':' + str(CompNameAndValue[1]))
+        print(' ')
+
+    print("------------------------Investor Name And Amount Invested By Investor---------------")
+    for InvNameAndAmountInvested in tupleInvNameAndAmountInvested:
+        print(InvNameAndAmountInvested[0] + ':' + str(InvNameAndAmountInvested[1]))
+  
