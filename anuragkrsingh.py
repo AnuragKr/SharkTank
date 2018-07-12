@@ -10,7 +10,7 @@ investorNameAndAmountInvested = {}
 def extractData(url):
     """Extracting Information From Link
     Args:
-         param (str): Link from where data has to be scrapped.
+         param (str): Link from where responseData has to be scrapped.
     Returns:
             {
               investorAndCompanyNames (dictionary): Contains Investor name as key And All Company Names as value in which investor invested
@@ -19,23 +19,28 @@ def extractData(url):
             }
     
     """
-    if(len(url)>0):
-         #Getting JSON Data From URL Using Requests Module
-        
-         try:
-             r = requests.get('https://gist.githubusercontent.com/murtuzakz/4bd887712703ff14c9b0f7c18229b332/raw/d0dd1c59016e2488dcbe0c8e710a1c5df9c3672e/season7.json')
-         except requests.exceptions.RequestException as e:
-             print("Oops! Kindly Check your Internet Connection")
-             sys.exit(1)
-         else:
-             data = json.loads(r.text)
+    if(len(url)):
+        #Getting JSON responseData From URL Using Requests Module
+        response = requests.get(url)
+    
+        if response.status_code == 404:
+            raise Exception('The server can not find the requested page.')
 
-         #Analysing JSON Data as Dictionary
+        if response.status_code == 400:
+            raise Exception('The server did not understand the request.')
+
+        if response.status_code == 500:
+            raise Exception('The request was not completed. The server met an unexpected condition.')
+
+        else:
+            responseData = json.loads(response.text)
+
+        #Analysing JSON responseData
              
-         for listOfEpisodes in data.keys():
-             infoOfEpisodes = data[listOfEpisodes]
-             for j in range(len(infoOfEpisodes)):
-                 for investorsKey,nameOfInvestors in infoOfEpisodes[j].items():
+        for listOfEpisodes in responseData.keys():
+             infOfEpisodes = responseData[listOfEpisodes]
+             for j in range(len(infOfEpisodes)):
+                 for investorsKey,nameOfInvestors in infOfEpisodes[j].items():
                      
                      #Trying to find name of investors who funded for the respective companies
                      
@@ -62,7 +67,7 @@ def extractData(url):
                                               i = lt[0]+" " +lt[1]
                                       investorName = i.strip(' ')
                                       investorAndCompanyNames[investorName]=investorAndCompanyNames.setdefault(investorName,[])
-                                      companyName = infoOfEpisodes[j]['company']['title']
+                                      companyName = infOfEpisodes[j]['company']['title']
                                       
                                       #Converting Unicode Company Name into 'utf-8'
                                       
@@ -77,11 +82,13 @@ def extractData(url):
                                       
                                       #Separating the amount and percentage value invested by investor
                                       
-                                      amount = infoOfEpisodes[j]['kitna']
+                                      amount = infOfEpisodes[j]['kitna']
                                       m = amount.split('for')
+                                      #Amount Invested In K(Thousand)
                                       match = re.search("\$((\d+\.\d+)|(\d+))K",m[0])
                                       if (match):
                                           investedAmountByInvestor = float(match.group(1))*1000
+                                      #Amount Invested In M(Million)
                                       match = re.search("\$((\d+\.\d+)|(\d+))M",m[0])
                                       if (match):
                                           investedAmountByInvestor = float(match.group(1))*1000000
@@ -89,7 +96,7 @@ def extractData(url):
                                       if (match):
                                           percent = float(match.group(1))
                                       companyValueInDollar = (investedAmountByInvestor/percent)*100
-                                      companyNameAndCompanyValue[companyName]=round(companyValueInDollar)
+                                      companyNameAndCompanyValue[companyName]= round(companyValueInDollar)
                                       investorNameAndAmountInvested[investorName] = investorNameAndAmountInvested.setdefault(investorName,1)
                                       investorNameAndAmountInvested[investorName] += investedAmountByInvestor
     else:
@@ -118,7 +125,7 @@ def getListOfInvestorAndInvestedAmount():
     
 #Main Function
 if __name__ == '__main__':
-	extractData('https://gist.githubusercontent.com/murtuzakz/4bd887712703ff14c9b0f7c18229b332/raw/d0dd1c59016e2488dcbe0c8e710a1c5df9c3672e/season7.json')
-	tupleInvNameAndCompName = getListOfInvestorAndCompanyNames()
-	tupleCompNameAndValue = getListOfComapnyNameAndCompanyValue()
-	tupleInvNameAndAmountInvested = getListOfInvestorAndInvestedAmount()
+  extractData('https://gist.githubusercontent.com/murtuzakz/4bd887712703ff14c9b0f7c18229b332/raw/d0dd1c59016e2488dcbe0c8e710a1c5df9c3672e/season7.json')
+  tupleInvNameAndCompName = getListOfInvestorAndCompanyNames()
+  tupleCompNameAndValue = getListOfComapnyNameAndCompanyValue()
+  tupleInvNameAndAmountInvested = getListOfInvestorAndInvestedAmount()
