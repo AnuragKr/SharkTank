@@ -109,19 +109,19 @@ def extractData(url):
         print("Empty String Given")
 
 
-#Getting list of all investors in a sorted order who invested in more number of companies
 def getListOfInvestorAndCompanyNames():
+    """Getting list of all investors in a sorted order who invested in more number of companies"""
     ranked = sorted(investorAndCompanyNames.items(),key=lambda e:len(e[1]),reverse=True)#Doing Sorting Bases On Number Of Companies
     return ranked
 
 
-#Getting list of company with their predicted full current value
 def getListOfComapnyNameAndCompanyValue():
+    """Getting list of company with their predicted full current value"""
     ranked = sorted(companyNameAndCompanyValue.items(),key=lambda e:e[1],reverse=True)
     return ranked
 
-#Getting Total Amount And Average Amount invested by an Investor
 def getListOfInvestorAndInvestedAmount():
+    """Getting Total Amount And Average Amount invested by an Investor"""
     ranked = sorted(investorNameAndAmountInvested.items(),key=lambda e:e[1],reverse=True)
     return ranked
 
