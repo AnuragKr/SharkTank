@@ -109,17 +109,14 @@ def getListOfInvestorAndCompanyNames():
     return ranked
 
 
-#Representing list of company with their predicted full current value
+#Getting list of company with their predicted full current value
 def getListOfComapnyNameAndCompanyValue():
     ranked = sorted(companyNameAndCompanyValue.items(),key=lambda e:e[1],reverse=True)
     return ranked
 
-#Representing Total Amount And Average Amount invested by an Investor
+#Getting Total Amount And Average Amount invested by an Investor
 def getListOfInvestorAndInvestedAmount():
     ranked = sorted(investorNameAndAmountInvested.items(),key=lambda e:e[1],reverse=True)
-    """for i in range(len(ranked)):
-        #print("\n{} : Total Investment ${} , average investment ${:.2f}".format(ranked[i][0],ranked[i][1],ranked[i][1]/len(investorAndCompanyNames[ranked[i][0]])))
-        pass"""
     return ranked
 
     
@@ -135,12 +132,12 @@ if __name__ == '__main__':
         print(InvNameAndCompName[0] + ':' + str(InvNameAndCompName[1]))
         print(' ')
 
-    print("--------------------------Comapany Name And It's Value------------------------------")
+    print("-----------------------------Comapany Name And It's Value-------------------------------------")
     for CompNameAndValue in tupleCompNameAndValue:
-        print(CompNameAndValue[0] + ':' + str(CompNameAndValue[1]))
+        print(CompNameAndValue[0] + ': $' + str(round(CompNameAndValue[1]/1000)) + 'K')
         print(' ')
 
-    print("------------------------Investor Name And Amount Invested By Investor---------------")
+    print("----------------------------Investor Name And Amount Invested By Investor----------------------")
     for InvNameAndAmountInvested in tupleInvNameAndAmountInvested:
-        print(InvNameAndAmountInvested[0] + ':' + str(InvNameAndAmountInvested[1]))
+        print(InvNameAndAmountInvested[0] + ': $' + str(round(InvNameAndAmountInvested[1]/1000000,2)) + 'M')
   
