@@ -117,12 +117,12 @@ def getListOfInvestorAndCompanyNames():
 
 def getListOfComapnyNameAndCompanyValue():
     """Getting list of company with their predicted full current value"""
-    ranked = sorted(companyNameAndCompanyValue.items(),key=lambda e:e[1],reverse=True)
+    ranked = sorted(companyNameAndCompanyValue.items(),key=lambda e:e[1],reverse=True)#Doing Sorting based on Company value
     return ranked
 
 def getListOfInvestorAndInvestedAmount():
-    """Getting Total Amount And Average Amount invested by an Investor"""
-    ranked = sorted(investorNameAndAmountInvested.items(),key=lambda e:e[1],reverse=True)
+    """Getting a list of Investor name And Amount invested by an Investor"""
+    ranked = sorted(investorNameAndAmountInvested.items(),key=lambda e:e[1],reverse=True)#Doing Sorting based on Amount Invested
     return ranked
 
     
